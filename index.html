@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juan Carlos | Desarrollador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .hero-content.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section-title.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        #sobre-mi {
+            background: var(--white);
+        }
+
+        .sobre-mi-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .sobre-mi-content.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sobre-mi-content p {
+            margin-bottom: 20px;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-img {
+            height: 220px;
+            width: 100%;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            color: var(--secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .project-gallery {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .project-gallery img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .project-gallery img:hover {
+            transform: scale(1.1);
+        }
+
+        #contacto {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .contacto-content {
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .contacto-content.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contacto-content p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .contacto-content strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        .footer-content p {
+            opacity: 0.8;
+        }
+
+        /* Modal para mostrar imágenes en grande */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 5px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            color: var(--primary);
+        }
+
+        /* Animaciones para elementos al hacer scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .projects {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 50px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">JC</div>
+            <nav>
+                <ul>
+                    <li><a href="#sobre-mi">Sobre mí</a></li>
+                    <li><a href="#proyectos">Proyectos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content" id="hero-content">
+                <h1>Hola, soy Juan Carlos</h1>
+                <p>Desarrollador apasionado por crear soluciones simples, elegantes y eficientes.</p>
+                <a href="#proyectos" class="btn">Ver Proyectos</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre-mi" class="section">
+        <div class="container">
+            <div class="section-title" id="sobre-mi-title">
+                <h2>Sobre mí</h2>
+            </div>
+            <div class="sobre-mi-content" id="sobre-mi-content">
+                <p>Soy un estudiante y desarrollador con experiencia en programación en C, C++, Java, Python y diseño de sistemas digitales, redes y proyectos académicos. Me encanta aprender y crear cosas nuevas.</p>
+                <p>Mi enfoque se centra en desarrollar soluciones eficientes y bien estructuradas, aplicando las mejores prácticas de programación y diseño. Siempre estoy buscando nuevos desafíos que me permitan expandir mis conocimientos y habilidades.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="proyectos" class="section">
+        <div class="container">
+            <div class="section-title" id="proyectos-title">
+                <h2>Proyectos</h2>
+            </div>
+            <div class="projects">
+                <!-- Proyecto 1 -->
+                <div class="card" id="card-1">
+                    <div class="card-img">
+                        <img src="Java_SQL.png" alt="Proyecto 1 - Login" id="img-proyecto1-1">
+                    </div>
+                    <div class="card-content">
+                        <h3>Aplicación en Java</h3>
+                        <p>Desarrollé una aplicación Java completa para búsqueda, traducción y gestión de letras musicales, integrando múltiples APIs externas con una base de datos local usando SQL. La plataforma incluye autenticación de usuarios, interfaz gráfica intuitiva y funcionalidades avanzadas de procesamiento de texto.</p>
+                        <div class="project-gallery">
+                            <img src="Login.png" alt="Login" onclick="openModal('Login.png')">
+                            <img src="Ventana_Historial.png" alt="Ventana Historial" onclick="openModal('Ventana_Historial.png')">
+                            <img src="Venta_Principal.png" alt="Venta Principal" onclick="openModal('Venta_Principal.png')">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Proyecto 2 -->
+                <div class="card" id="card-2">
+                    <div class="card-img">
+                        <img src="C++.png" alt="Proyecto 2 - Menu" id="img-proyecto2-1">
+                    </div>
+                    <div class="card-content">
+                        <h3>Optimización de Transporte</h3>
+                        <p>Desarrollé una solución integral para optimizar el sistema de transporte público del Área Metropolitana de Monterrey mediante la aplicación del algoritmo de Kruskal para calcular el Árbol de Expansión Mínima (MST). El proyecto incluyó tanto el análisis teórico del problema de movilidad urbana como la implementación práctica de un programa en C para resolver problemas de optimización de redes.</p>
+                        <div class="project-gallery">
+                            <img src="Menu.png" alt="Menu" onclick="openModal('Menu.png')">
+                            <img src="Ruta_optimizada.png" alt="Ruta Optimizada" onclick="openModal('Ruta_optimizada.png')">
+                            <img src="Mapeado.png" alt="Mapeado" onclick="openModal('Mapeado.png')">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Proyecto 3 -->
+                <div class="card" id="card-3">
+                    <div class="card-img">
+                        <img src="Python.png" alt="Proyecto 3 - Análisis Numérico" id="img-proyecto3-1">
+                    </div>
+                    <div class="card-content">
+                        <h3>Análisis Numérico</h3>
+                        <p>Desarrollé una aplicación gráfica completa en Python para el análisis de datos de consumo eléctrico, implementando métodos numéricos avanzados con una interfaz de usuario intuitiva. La aplicación permite visualizar, analizar y procesar datos de consumo energético mediante técnicas computacionales.</p>
+                        <div class="project-gallery">
+                            <img src="Proyecto_Analisis_Numerico.png" alt="Proyecto Análisis Numérico" onclick="openModal('Proyecto_Analisis_Numerico.png')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="section">
+        <div class="container">
+            <div class="section-title" id="contacto-title">
+                <h2>Contacto</h2>
+            </div>
+            <div class="contacto-content" id="contacto-content">
+                <p>Puedes escribirme a:</p>
+                <p><strong>jc.170404@hotmail.com</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <p></p>
+        </div>
+    </footer>
+
+    <!-- Modal para mostrar imágenes en grande -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+
+    <script>
+        // Intersection Observer para animaciones al hacer scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animación
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animación del hero
+            setTimeout(() => {
+                document.getElementById('hero-content').classList.add('animate');
+            }, 300);
+
+            // Observar elementos de secciones
+            const elementsToObserve = [
+                document.getElementById('sobre-mi-title'),
+                document.getElementById('sobre-mi-content'),
+                document.getElementById('proyectos-title'),
+                document.getElementById('card-1'),
+                document.getElementById('card-2'),
+                document.getElementById('card-3'),
+                document.getElementById('contacto-title'),
+                document.getElementById('contacto-content')
+            ];
+
+            elementsToObserve.forEach(element => {
+                if (element) {
+                    observer.observe(element);
+                }
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+
+        // Navegación suave
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(e.target.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Funcionalidad del modal para imágenes
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modal.classList.add('show');
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+
+        // Cerrar modal al hacer clic fuera de la imagen
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
